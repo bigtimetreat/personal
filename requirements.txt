@@ -1,0 +1,6 @@
+vosk
+sounddevice
+opencv-python
+pytesseract
+kivy
+matplotlib
