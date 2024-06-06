@@ -1,6 +1,6 @@
-vosk
-sounddevice
-opencv-python
-pytesseract
 kivy
 matplotlib
+numpy
+pyaudio
+speechrecognition
+sounddevice

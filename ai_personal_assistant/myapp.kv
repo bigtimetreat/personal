@@ -1,0 +1,17 @@
+# myapp.kv
+
+<MyApp>:
+    orientation: "vertical"
+    Label:
+        text: "Assistant Speaking..."
+        size_hint_y: None
+        height: "48dp"
+
+    SoundWave:
+        id: sound_wave
+
+    Button:
+        text: "Start Speech Recognition"
+        size_hint_y: None
+        height: "48dp"
+        on_press: root.start_speech_recognition()

@@ -1,6 +1,5 @@
-
 from gui import MyApp
-import time  # Import the time module
+import time
 from speech_to_text import recognize_speech
 
 def main():
@@ -13,6 +12,7 @@ def main():
         try:
             text = recognize_speech()
             print("Transcribed text:", text)
+            # You can add your logic here to handle the transcribed text
         except Exception as e:
             print("Error:", e)
 

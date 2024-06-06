@@ -1,26 +1,58 @@
-import vosk
-import sounddevice as sd
-import json
-
-# Path to your Vosk model
-model_path = "models/vosk-model-cn-0.22"
-model = vosk.Model(model_path)
-rec = vosk.KaldiRecognizer(model, 16000)
+import pyttsx3
+import speech_recognition as sr
 
 def recognize_speech():
-    def callback(indata, frames, time, status):
-        if rec.AcceptWaveform(indata):
-            result = rec.Result()
-            result_dict = json.loads(result)
-            print(result_dict['text'])
-            return result_dict['text']
-        else:
-            partial_result = rec.PartialResult()
-            partial_result_dict = json.loads(partial_result)
-            print(partial_result_dict['partial'])
-            return partial_result_dict['partial']
+    """
+    Recognizes speech from the microphone.
     
-    with sd.RawInputStream(samplerate=16000, blocksize=8000, dtype='int16', channels=1, callback=callback):
+    Returns:
+        str: Transcribed text.
+    """
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
         print("Listening...")
-        while True:
-            pass
+        recognizer.adjust_for_ambient_noise(source)  # Adjust microphone for ambient noise
+        audio_data = recognizer.listen(source)
+
+    try:
+        text = recognizer.recognize_google(audio_data)
+        print("Transcribed text:", text)
+        return text
+    except sr.UnknownValueError:
+        print("Could not understand audio")
+        return ""
+    except sr.RequestError as e:
+        print("Could not request results from Google Speech Recognition service; {0}".format(e))
+        return ""
+
+def speak(text):
+    """
+    Converts text to speech and plays it.
+    
+    Args:
+        text (str): The text to be spoken.
+    """
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
+
+def main():
+    while True:
+        try:
+            # Listen for speech input
+            text = recognize_speech()
+            
+            # Process the speech input and provide a response
+            if text:
+                # Example response
+                response = "You said: " + text
+                print("Response:", response)
+                
+                # Speak the response
+                speak(response)
+        except KeyboardInterrupt:
+            print("Exiting...")
+            break
+
+if __name__ == "__main__":
+    main()

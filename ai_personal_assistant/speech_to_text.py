@@ -1,27 +1,23 @@
-import vosk
-import sounddevice as sd
-import json
-import os
-
-# Path to your Vosk model directory
-model_dir = "/workspaces/personal/ai_personal_assistant/models/vosk-model-cn-0.22"
-model = vosk.Model(model_dir)
-rec = vosk.KaldiRecognizer(model, 16000)
+import speech_recognition as sr
 
 def recognize_speech():
-    def callback(indata, frames, time, status):
-        if rec.AcceptWaveform(indata):
-            result = rec.Result()
-            result_dict = json.loads(result)
-            print(result_dict['text'])
-            return result_dict['text']
-        else:
-            partial_result = rec.PartialResult()
-            partial_result_dict = json.loads(partial_result)
-            print(partial_result_dict['partial'])
-            return partial_result_dict['partial']
-    
-    with sd.RawInputStream(samplerate=16000, blocksize=8000, dtype='int16', channels=1, callback=callback):
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
         print("Listening...")
-        while True:
-            pass
+        recognizer.adjust_for_ambient_noise(source)  # Adjust microphone for ambient noise
+        audio = recognizer.listen(source)  # Listen for audio input
+        
+    try:
+        print("Recognizing...")
+        text = recognizer.recognize_google(audio)  # Use Google Web Speech API to recognize speech
+        print("Recognized text:", text)
+        return text
+    except sr.UnknownValueError:
+        print("Could not understand audio")
+        return ""
+    except sr.RequestError as e:
+        print("Could not request results from Google Speech Recognition service; {0}".format(e))
+        return ""
+
+if __name__ == "__main__":
+    recognize_speech()
