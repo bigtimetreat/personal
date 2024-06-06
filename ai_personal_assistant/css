@@ -1,0 +1,10 @@
+ai_personal_assistant/
+├── README.md
+├── requirements.txt
+├── main.py
+├── speech_to_text.py
+├── text_to_speech.py
+├── dialog_management.py
+├── vision_agent.py
+├── sound_wave_animation.py
+└── gui.py
