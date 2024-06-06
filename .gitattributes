@@ -1,4 +1,0 @@
-ai_personal_assistant/models/vosk-model-cn-0.22/* filter=lfs diff=lfs merge=lfs -text
-ai_personal_assistant/models/vosk-model-cn-0.22/graph/HCLG.fst filter=lfs diff=lfs merge=lfs -text
-ai_personal_assistant/models/vosk-model-cn-0.22/rescore/G.carpa filter=lfs diff=lfs merge=lfs -text
-ai_personal_assistant/models/vosk-model-cn-0.22/rescore/G.fst filter=lfs diff=lfs merge=lfs -text
